@@ -2,8 +2,16 @@
 to used you should
 
 # open terminal and TYPE 
-__pip install pywifi__
-__pip show pywifi__
-__pip install comtypes__
-__pip show comtypes__
+```
+pip install pywifi
+```
 
+```
+pip show pywifi
+```
+```
+pip install comtypes
+```
+```
+pip show comtypes
+```
